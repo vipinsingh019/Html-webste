@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Free Instagram Followers</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.container {
+    width: 90%;
+    max-width: 350px;
+    background: white;
+    padding: 23px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.banner {
+    height: 130px;
+    background: linear-gradient(
+        45deg,
+        #ff9800,
+        #e1306c,
+        #833ab4
+    );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    font-size: 20px;
+    margin: 20px 0;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+}
+
+input:focus {
+    border-color: #764ba2;
+}
+
+button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#message {
+    text-align: center;
+    font-size: 13px;
+    margin-top: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="banner">
+        INSTAGRAM<br>
+        FREE FOLLOWERS
+    </div>
+
+    <h2>Free Followers Form</h2>
+
+    <form id="followersForm">
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Instagram Username"
+            required
+        >
+
+        <input
+            type="number"
+            id="amount"
+            placeholder="Amount of Followers"
+            min="1"
+            max="100000"
+            required
+        >
+
+        <button type="submit" id="submitBtn">
+            Submit
+        </button>
+
+    </form>
+
+    <p id="message"></p>
+
+</div>
+
+<script>
+
+// Replace with your Google Apps Script Web App URL
+const SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL";
+
+document.getElementById("followersForm")
+.addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const username = document.getElementById("username")
+        .value.trim().replace(/^@/, "");
+
+    const amount = Number(
+        document.getElementById("amount").value
+    );
+
+    const message = document.getElementById("message");
+    const button = document.getElementById("submitBtn");
+
+    if (!/^[a-zA-Z0-9._]{1,30}$/.test(username)) {
+        message.textContent = "Invalid Instagram username.";
+        return;
+    }
+
+    if (!Number.isInteger(amount) || amount < 1 || amount > 100000) {
+        message.textContent = "Enter a valid amount.";
+        return;
+    }
+
+    if (SCRIPT_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL") {
+        message.textContent = "Website configuration is incomplete.";
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Submitting...";
+
+    try {
+
+        const formData = new URLSearchParams();
+
+        formData.append("instagramUsername", username);
+        formData.append("requestedAmount", amount);
+
+        await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: formData,
+            mode: "no-cors"
+        });
+
+        message.style.color = "green";
+        message.textContent =
+            "Request submitted!";
+
+        document.getElementById("followersForm").reset();
+
+    } catch (error) {
+
+        message.style.color = "red";
+        message.textContent = "Something went wrong.";
+
+    }
+
+    button.disabled = false;
+    button.textContent = "Submit";
+
+});
+
+</script>
+
+</body>
+</html>
